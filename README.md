@@ -1,6 +1,8 @@
 # mdsearch Skill
 
-This skill provides an interface for interacting with the `mdsearch` CLI tool within the agent environment.
+This skill is for [mdsearch](https://github.com/onigetoc/mdsearch).
+
+mdsearch-skill provides an interface for interacting with the `mdsearch` CLI tool within the agent environment.
 
 ## Overview
 `mdsearch` is a fast full-text search CLI for Markdown knowledge bases and Obsidian vaults. It features:
