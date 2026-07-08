@@ -32,12 +32,12 @@ mdsearch --list --reindex      # Forces re-indexing before listing
 
 ```bash
 # local dev
-mdsearch "my query" [folder/path]      # optional: relative folder or absolute path
+mdsearch "<search query>" [folder/path]      # optional: relative folder or absolute path
 mdsearch --reindex [folder/path]
 mdindex [folder/path]
 
 # from npm (when published)
-npx mdsearch-cli "my query" [folder/path]
+npx @onigetoc/mdsearch "<search query>" [folder/path]
 npx mdindex [folder/path]
 ```
 
@@ -45,34 +45,34 @@ npx mdindex [folder/path]
 
 ```bash
 # ── SEARCH ──
-mdsearch "minisearch"                     # current dir (.), fuzzy=0.2
-mdsearch "minisearrch" --no-fuzzy          # exact only
-mdsearch "minisearch" --fuzzy 0.4          # wider fuzzy
-mdsearch "minisearch" notes-test           # specific folder
+mdsearch "<search query>"                     # current dir (.), fuzzy=0.2
+mdsearch "<search query>" --no-fuzzy          # exact only
+mdsearch "<search query>" --fuzzy 0.4          # wider fuzzy
+mdsearch "<search query>" notes-test           # specific folder
 
 # ── BOOST ──
-mdsearch "term"                           # boost: title=3, headings=2, text=1
-mdsearch "term" --boost-title 5 --boost-headings 3 --boost-text 1
-mdsearch "term" --boost-title 1 --boost-headings 1 --boost-text 1
+mdsearch "<search query>"                           # boost: title=3, headings=2, text=1
+mdsearch "<search query>" --boost-title 5 --boost-headings 3 --boost-text 1
+mdsearch "<search query>" --boost-title 1 --boost-headings 1 --boost-text 1
 
 # ── CONTEXT / LIMIT ──
-mdsearch "term" --limit 5
-mdsearch "term" --context 0               # no snippet
-mdsearch "term" --context 4               # 4 lines before/after
+mdsearch "<search query>" --limit 5
+mdsearch "<search query>" --context 0               # no snippet
+mdsearch "<search query>" --context 4               # 4 lines before/after
 
 # ── OUTPUT FORMAT ──
-mdsearch "term"                           # human-readable
-mdsearch "term" --json                    # JSON with normalized scores + line
-mdsearch "term" --context 4 --llm-context # compact for LLM (+ Confidence)
+mdsearch "<search query>"                           # human-readable
+mdsearch "<search query>" --json                    # JSON with normalized scores + line
+mdsearch "<search query>" --context 4 --llm-context # compact for LLM (+ Confidence)
 
 # ── PREFIX ──
 mdsearch "minis" --prefix
 
 # ── CACHE / INDEX ──
 mdindex ~/my-notes                        # pre-build index
-mdsearch "minisearch" ~/my-notes           # uses cache
-mdsearch "term" --reindex                  # force rebuild
-mdsearch "term" ~/my-notes --cache-dir .mycache
+mdsearch "<search query>" ~/my-notes           # uses cache
+mdsearch "<search query>" --reindex                  # force rebuild
+mdsearch "<search query>" ~/my-notes --cache-dir .mycache
 mdindex ~/my-notes --cache-dir .mycache
 
 # ── LLM-READY (typical usage) ──
