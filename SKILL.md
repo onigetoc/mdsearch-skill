@@ -37,7 +37,12 @@ mdsearch --reindex [folder/path]
 mdindex [folder/path]
 
 # from npm (when published)
+# Use bunx for faster execution if you have Bun installed:
+bunx @onigetoc/mdsearch "<search query>" [folder/path]
+# Fallback to npx if not:
 npx @onigetoc/mdsearch "<search query>" [folder/path]
+
+bunx mdindex [folder/path]
 npx mdindex [folder/path]
 ```
 
@@ -65,8 +70,10 @@ mdsearch "<search query>"                           # human-readable
 mdsearch "<search query>" --json                    # JSON with normalized scores + line
 mdsearch "<search query>" --context 4 --llm-context # compact for LLM (+ Confidence)
 
-# ── PREFIX ──
+# ── PREFIX, PHRASE & AND ──
 mdsearch "minis" --prefix
+mdsearch "karpathy llm" --phrase       # exact phrase search (sequence of terms)
+mdsearch "karpathy llm" --and          # require all terms (default: OR)
 
 # ── CACHE / INDEX ──
 mdindex ~/my-notes                        # pre-build index
