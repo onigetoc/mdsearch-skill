@@ -30,6 +30,9 @@ The standard workflow for this skill is:
 - `mdsearch "<query>" <folder>`: Search in a specific folder.
 - `mdsearch "<query>" --fuzzy <0.x>`: Adjust fuzzy tolerance (default 0.2).
 - `mdsearch "<query>" --no-fuzzy`: Disable fuzzy matching.
+- `mdsearch "<query>" --phrase`: Exact phrase search (sequence of terms).
+- `mdsearch "<query>" --and`: Require all terms (default: OR).
+- `mdsearch "<query>" --prefix`: Enable prefix search.
 
 ### Formatting
 - `mdsearch "<query>" --json`: Output results in JSON format.

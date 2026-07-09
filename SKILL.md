@@ -7,83 +7,72 @@ description: Full-text search engine for Markdown files using MiniSearch. Index 
 
 Local full-text search CLI for Markdown knowledge bases and Obsidian vaults. With automatic indexing, fuzzy search, contextual snippets, line references, and LLM-ready output.
 
-## Structure
+## Usage
 
-- `src/search-md.mjs` — main CLI (bin `mdsearch`)
-- `src/index-md.mjs` — index builder (bin `mdindex`)
-- `src/lib.mjs` — shared: directory walk, frontmatter parsing, signatures, snippets
-- Dependency: `minisearch` (npm)
-
-## Version, Help & Listing
+Agent uses `npx -y` to always get latest version (no global install needed):
 
 ```bash
-mdsearch --version
-mdsearch --help
-mdsearch --list                # Lists all indexed files (auto-builds index if missing)
-mdsearch --list --reindex      # Forces re-indexing before listing
+npx -y @onigetoc/mdsearch "<query>" [<folder>] [options]
 ```
 
-*Note: `mdsearch --list` automatically handles index creation if it doesn't exist. Use `--reindex` if you suspect the index is stale.*
+## Options
 
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `--fuzzy` | number | `0.2` | Fuzzy factor (0 = exact). Use `--no-fuzzy` to disable. |
+| `--prefix` | boolean | `false` | Prefix search (match term prefixes) |
+| `--phrase` | boolean | `false` | Exact phrase search (terms in sequence) |
+| `--and` | boolean | `false` | Require all terms (default OR) |
+| `--boost-title` | number | `3` | Title weight |
+| `--boost-headings` | number | `2` | Heading weight |
+| `--boost-text` | number | `1` | Body text weight |
+| `--limit` | number | `10` | Max results |
+| `--context` | number | `2` | Lines before/after match (0 = off) |
+| `--json` | boolean | `false` | JSON output |
+| `--llm-context` | boolean | `false` | LLM-optimized format |
+| `--reindex` | boolean | `false` | Force re-index |
+| `--cache-dir` | string | `.mdsearch` | Custom cache directory |
+| `--list` | boolean | `false` | List indexed files |
+| `--version` | boolean | `false` | Show version |
+| `--help` | boolean | `false` | Show help |
 
-## Installation & test
-
-`npm link` is already set. Commands `mdsearch` and `mdindex` are globally available.
-
-```bash
-# local dev
-mdsearch "<search query>" [folder/path]      # optional: relative folder or absolute path
-mdsearch --reindex [folder/path]
-mdindex [folder/path]
-
-# from npm (when published)
-# Use bunx for faster execution if you have Bun installed:
-bunx @onigetoc/mdsearch "<search query>" [folder/path]
-# Fallback to npx if not:
-npx @onigetoc/mdsearch "<search query>" [folder/path]
-
-bunx mdindex [folder/path]
-npx mdindex [folder/path]
-```
-
-## Essential commands
+## Examples
 
 ```bash
-# ── SEARCH ──
-mdsearch "<search query>"                     # current dir (.), fuzzy=0.2
-mdsearch "<search query>" --no-fuzzy          # exact only
-mdsearch "<search query>" --fuzzy 0.4          # wider fuzzy
-mdsearch "<search query>" notes-test           # specific folder
+# SEARCH
+npx -y @onigetoc/mdsearch "<query>"                       # current dir, fuzzy=0.2
+npx -y @onigetoc/mdsearch "<query>" --no-fuzzy            # exact only
+npx -y @onigetoc/mdsearch "<query>" --fuzzy 0.4            # wider fuzzy
+npx -y @onigetoc/mdsearch "<query>" notes-test             # specific folder
 
-# ── BOOST ──
-mdsearch "<search query>"                           # boost: title=3, headings=2, text=1
-mdsearch "<search query>" --boost-title 5 --boost-headings 3 --boost-text 1
-mdsearch "<search query>" --boost-title 1 --boost-headings 1 --boost-text 1
+# BOOST
+npx -y @onigetoc/mdsearch "<query>" --boost-title 5 --boost-headings 3 --boost-text 1
 
-# ── CONTEXT / LIMIT ──
-mdsearch "<search query>" --limit 5
-mdsearch "<search query>" --context 0               # no snippet
-mdsearch "<search query>" --context 4               # 4 lines before/after
+# CONTEXT / LIMIT
+npx -y @onigetoc/mdsearch "<query>" --limit 5
+npx -y @onigetoc/mdsearch "<query>" --context 0            # no snippet
+npx -y @onigetoc/mdsearch "<query>" --context 4
 
-# ── OUTPUT FORMAT ──
-mdsearch "<search query>"                           # human-readable
-mdsearch "<search query>" --json                    # JSON with normalized scores + line
-mdsearch "<search query>" --context 4 --llm-context # compact for LLM (+ Confidence)
+# OUTPUT
+npx -y @onigetoc/mdsearch "<query>"                       # human-readable
+npx -y @onigetoc/mdsearch "<query>" --json                # JSON
+npx -y @onigetoc/mdsearch "<query>" --context 4 --llm-context
 
-# ── PREFIX, PHRASE & AND ──
-mdsearch "minis" --prefix
-mdsearch "karpathy llm" --phrase       # exact phrase search (sequence of terms)
-mdsearch "karpathy llm" --and          # require all terms (default: OR)
+# PREFIX, PHRASE, AND
+npx -y @onigetoc/mdsearch "<query>" --prefix
+npx -y @onigetoc/mdsearch "<query>" --phrase
+npx -y @onigetoc/mdsearch "<query>" --and
 
-# ── CACHE / INDEX ──
-mdindex ~/my-notes                        # pre-build index
-mdsearch "<search query>" ~/my-notes           # uses cache
-mdsearch "<search query>" --reindex                  # force rebuild
-mdsearch "<search query>" ~/my-notes --cache-dir .mycache
-mdindex ~/my-notes --cache-dir .mycache
+# CACHE / INDEX
+npx -y @onigetoc/mdsearch "<query>" --reindex
+npx -y @onigetoc/mdsearch "<query>" ~/my-notes --cache-dir .mycache
 
-# ── LLM-READY (typical usage) ──
-mdsearch "PI agent shell injection" ~/my-notes --context 4 --limit 3 --llm-context
+# LIST / HELP
+npx -y @onigetoc/mdsearch --list
+npx -y @onigetoc/mdsearch --help
+
+# TYPICAL AGENT USAGE
+npx -y @onigetoc/mdsearch "PI agent shell injection" ~/my-notes --context 4 --limit 3 --llm-context
 ```
 
 ## Key conventions
@@ -92,6 +81,7 @@ mdsearch "PI agent shell injection" ~/my-notes --context 4 --limit 3 --llm-conte
 - Cache in `.mdsearch/` inside the target folder (index.json + meta.json)
 - Cache invalidated automatically on file add/remove/modify
 - Fuzzy search on by default (`--fuzzy 0.2`). `--no-fuzzy` for exact
+- AND/OR: Search defaults to `OR` (results containing any term). Use `--and` to require all terms.
 - Fields are normalized (NFD → strip diacritics, lowercase)
 - Snippets + line numbers read on demand (not cached)
 - Line numbers always shown (`line 42: → content`)
@@ -113,14 +103,14 @@ The snippet is a **hint**, not the final source. After each relevant result, **r
 ### Loop
 
 ```
-STEP 1: mdsearch broad terms --limit 5 --context 2
+STEP 1: npx -y @onigetoc/mdsearch broad terms --limit 5 --context 2
         → identify relevant files + lines
 
 STEP 2: for each result with score > 0.3:
         read file.md offset:line limit:30
         → verify actual context (not just the snippet)
 
-STEP 3: if more details needed, mdsearch with more specific terms
+STEP 3: if more details needed, search with more specific terms
         → back to STEP 2
 
 STEP 4: synthesize with citations (path + line)
@@ -139,7 +129,7 @@ STEP 4: synthesize with citations (path + line)
 User: *"what is this project about architecture-wise?"*
 
 ```
-PASS 1 → mdsearch "architecture" --limit 5 --context 2
+PASS 1 → npx -y @onigetoc/mdsearch "architecture" --limit 5 --context 2
          → results: archon-harness-builder.md (score 0.95, line 3)
                      context-engineering.md (score 0.40, line 15)
 
@@ -147,7 +137,7 @@ PASS 2 → read archon-harness-builder.md offset:3 limit:40
          → "the project is a YAML workflow system"
          → inferred: new terms "harness PIV workflow"
          
-         mdsearch "harness workflow" --limit 3 --context 4
+         npx -y @onigetoc/mdsearch "harness workflow" --limit 3 --context 4
          → read best result at found lines
 
 PASS 3 → synthesize: path + line for each source
