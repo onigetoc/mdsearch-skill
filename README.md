@@ -18,25 +18,24 @@ The standard workflow for this skill is:
 ## Commands
 
 ### Help & Version
-- `mdsearch --version`: Check the installed version.
-- `mdsearch --help`: Display available CLI options.
+- `npm -y @onigetoc/mdsearch --version`: Check the installed version.
+- `npm -y @onigetoc/mdsearch --help`: Display available CLI options.
 
 ### Listing Indexed Files
-- `mdsearch --list`: Lists all indexed files. (Auto-builds index if missing)
-- `mdsearch --list --reindex`: Forces a full re-index before listing files.
+- `npm -y @onigetoc/mdsearch --list`: Lists all indexed files. (Auto-builds index if missing)
+- `npm -y @onigetoc/mdsearch --list --reindex`: Forces a full re-index before listing files.
 
 ### Searching
-- `mdsearch "<query>"`: Search in the current directory.
-- `mdsearch "<query>" <folder>`: Search in a specific folder.
-- `mdsearch "<query>" --fuzzy <0.x>`: Adjust fuzzy tolerance (default 0.2).
-- `mdsearch "<query>" --no-fuzzy`: Disable fuzzy matching.
-- `mdsearch "<query>" --phrase`: Exact phrase search (sequence of terms).
-- `mdsearch "<query>" --and`: Require all terms (default: OR).
-- `mdsearch "<query>" --prefix`: Enable prefix search.
+- `npm -y @onigetoc/mdsearch "<query>"`: Search in the current directory.
+- `npm -y @onigetoc/mdsearch "<query>" <folder>`: Search in a specific folder.
+- `npm -y @onigetoc/mdsearch "<query>" --no-fuzzy`: Disable fuzzy matching.
+- `npm -y @onigetoc/mdsearch "<query>" --phrase`: Exact phrase search (sequence of terms).
+- `npm -y @onigetoc/mdsearch "<query>" --and`: Require all terms (default: OR).
+- `npm -y @onigetoc/mdsearch "<query>" --prefix`: Enable prefix search.
 
 ### Formatting
-- `mdsearch "<query>" --json`: Output results in JSON format.
-- `mdsearch "<query>" --llm-context`: Output compact text optimized for LLM prompts.
+- `npm -y @onigetoc/mdsearch "<query>" --json`: Output results in JSON format.
+- `npm -y @onigetoc/mdsearch "<query>" --llm-context`: Output compact text optimized for LLM prompts.
 
 ## Agent Best Practices
 - **Never cite a snippet directly**; always read the full file at the indicated line number to verify context.
