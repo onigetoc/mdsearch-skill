@@ -1,7 +1,10 @@
 ---
 name: mdsearch
 description: Full-text search engine for Markdown files using MiniSearch. Index + fuzzy search, context snippets, LLM formatting, line numbers. Use when searching .md files in a local folder — Obsidian vaults, knowledge bases, documentation. Supports boosting (title/headings/text), prefix search, JSON output, reindex, and custom cache directory. Use when user says search my docs, search my vault, search my notes, search my knowledge base, find in my markdown files, or any variant requesting a local full-text search across .md files.
-author: onigetoc
+license: MIT
+metadata:
+  author: onigetoc
+  version: "0.6"
 ---
 
 # mdsearch — Full-text search CLI for Markdown files
@@ -12,16 +15,16 @@ Read the appropriate file(s) when user need more infos or complet information/ex
 
 ## Usage
 
-Agent uses `npx -y` to always get latest version (no global install needed):
-
-```bash
-npx -y @onigetoc/mdsearch "<query>" [<folder>] [options]
-```
-
-### Local mdsearch
+If installed globally or locally in a project:
 
 ```bash
 mdsearch "<query>" [<folder>] [options]
+```
+
+If not installed, use npx:
+
+```bash
+npx -y @onigetoc/mdsearch "<query>" [<folder>] [options]
 ```
 
 ## Options
@@ -49,39 +52,39 @@ mdsearch "<query>" [<folder>] [options]
 
 ```bash
 # SEARCH
-npx -y @onigetoc/mdsearch "<query>"                       # current dir, fuzzy=0.2
-npx -y @onigetoc/mdsearch "<query>" --no-fuzzy            # exact only
-npx -y @onigetoc/mdsearch "<query>" --fuzzy 0.4            # wider fuzzy
-npx -y @onigetoc/mdsearch "<query>" notes-test             # specific folder
+mdsearch "<query>"                       # current dir, fuzzy=0.2
+mdsearch "<query>" --no-fuzzy            # exact only
+mdsearch "<query>" --fuzzy 0.4            # wider fuzzy
+mdsearch "<query>" notes-test             # specific folder
 
 # BOOST
-npx -y @onigetoc/mdsearch "<query>" --boost-title 5 --boost-headings 3 --boost-text 1
+mdsearch "<query>" --boost-title 5 --boost-headings 3 --boost-text 1
 
 # CONTEXT / LIMIT
-npx -y @onigetoc/mdsearch "<query>" --limit 5
-npx -y @onigetoc/mdsearch "<query>" --context 0            # no snippet
-npx -y @onigetoc/mdsearch "<query>" --context 4
+mdsearch "<query>" --limit 5
+mdsearch "<query>" --context 0            # no snippet
+mdsearch "<query>" --context 4
 
 # OUTPUT
-npx -y @onigetoc/mdsearch "<query>"                       # human-readable
-npx -y @onigetoc/mdsearch "<query>" --json                # JSON
-npx -y @onigetoc/mdsearch "<query>" --context 4 --llm-context
+mdsearch "<query>"                       # human-readable
+mdsearch "<query>" --json                # JSON
+mdsearch "<query>" --context 4 --llm-context
 
 # PREFIX, PHRASE, AND
-npx -y @onigetoc/mdsearch "<query>" --prefix
-npx -y @onigetoc/mdsearch "<query>" --phrase
-npx -y @onigetoc/mdsearch "<query>" --and
+mdsearch "<query>" --prefix
+mdsearch "<query>" --phrase
+mdsearch "<query>" --and
 
 # CACHE / INDEX
-npx -y @onigetoc/mdsearch "<query>" --reindex
-npx -y @onigetoc/mdsearch "<query>" ~/my-notes --cache-dir .mycache
+mdsearch "<query>" --reindex
+mdsearch "<query>" ~/my-notes --cache-dir .mycache
 
 # LIST / HELP
-npx -y @onigetoc/mdsearch --list
-npx -y @onigetoc/mdsearch --help
+mdsearch --list
+mdsearch --help
 
 # TYPICAL AGENT USAGE
-npx -y @onigetoc/mdsearch "PI agent shell injection" ~/my-notes --context 4 --limit 3 --llm-context
+mdsearch "PI agent shell injection" ~/my-notes --context 4 --limit 3 --llm-context
 ```
 
 ## Key conventions
@@ -112,7 +115,7 @@ The snippet is a **hint**, not the final source. After each relevant result, **r
 ### Loop
 
 ```
-STEP 1: npx -y @onigetoc/mdsearch broad terms --limit 5 --context 2
+STEP 1: mdsearch broad terms --limit 5 --context 2
         → identify relevant files + lines
 
 STEP 2: for each result with score > 0.3:
@@ -138,7 +141,7 @@ STEP 4: synthesize with citations (path + line)
 User: *"what is this project about architecture-wise?"*
 
 ```
-PASS 1 → npx -y @onigetoc/mdsearch "architecture" --limit 5 --context 2
+PASS 1 → mdsearch "architecture" --limit 5 --context 2
          → results: archon-harness-builder.md (score 0.95, line 3)
                      context-engineering.md (score 0.40, line 15)
 
@@ -146,7 +149,7 @@ PASS 2 → read archon-harness-builder.md offset:3 limit:40
          → "the project is a YAML workflow system"
          → inferred: new terms "harness PIV workflow"
          
-         npx -y @onigetoc/mdsearch "harness workflow" --limit 3 --context 4
+         mdsearch "harness workflow" --limit 3 --context 4
          → read best result at found lines
 
 PASS 3 → synthesize: path + line for each source
