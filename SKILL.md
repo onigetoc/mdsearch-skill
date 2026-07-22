@@ -1,11 +1,14 @@
 ---
 name: mdsearch
-description: Full-text search engine for Markdown files using MiniSearch. Index + fuzzy search, context snippets, LLM formatting, line numbers. Use when searching .md files in a local folder — Obsidian vaults, knowledge bases, documentation. Supports boosting (title/headings/text), prefix search, JSON output, reindex, and custom cache directory.
+description: Full-text search engine for Markdown files using MiniSearch. Index + fuzzy search, context snippets, LLM formatting, line numbers. Use when searching .md files in a local folder — Obsidian vaults, knowledge bases, documentation. Supports boosting (title/headings/text), prefix search, JSON output, reindex, and custom cache directory. Use when user says search my docs, search my vault, search my notes, search my knowledge base, find in my markdown files, or any variant requesting a local full-text search across .md files.
+author: onigetoc
 ---
 
 # mdsearch — Full-text search CLI for Markdown files
 
 Local full-text search CLI for Markdown knowledge bases and Obsidian vaults. With automatic indexing, fuzzy search, contextual snippets, line references, and LLM-ready output.
+
+Read the appropriate file(s) when user need more infos or complet information/explanation.
 
 ## Usage
 
@@ -13,6 +16,12 @@ Agent uses `npx -y` to always get latest version (no global install needed):
 
 ```bash
 npx -y @onigetoc/mdsearch "<query>" [<folder>] [options]
+```
+
+### Local mdsearch
+
+```bash
+mdsearch "<query>" [<folder>] [options]
 ```
 
 ## Options
